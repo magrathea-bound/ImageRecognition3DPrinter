@@ -70,7 +70,6 @@ pipeline.as_numpy_iterator().next()
 train_size = int(len(pipeline) * .6)
 val_size = int(len(pipeline)*.3)
 test_size = int(len(pipeline)*.1)
-
 print(train_size)
 print(val_size)
 print(test_size)
