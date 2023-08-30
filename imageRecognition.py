@@ -1,7 +1,10 @@
 #import cv2
 #from PIL import Image
 #import os
+import tensorflow as tf
 from tensorflow import keras
+from keras.models import Sequential
+from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -68,9 +71,68 @@ pipeline.as_numpy_iterator().next()
 
 #Splitting Data
 train_size = int(len(pipeline) * .6)
-val_size = int(len(pipeline)*.3)
-test_size = int(len(pipeline)*.1)
-print(train_size)
-print(val_size)
-print(test_size)
-print(len(pipeline))
+val_size = int(len(pipeline)*.3) + 1
+test_size = int(len(pipeline)*.1) + 1
+
+train = pipeline.take(train_size)
+val = pipeline.skip(train_size).take(val_size)
+test = pipeline.skip(train_size + val_size).take(test_size)
+
+"""
+************************************************************************************
+Model Construction
+************************************************************************************
+"""
+
+model = Sequential()
+
+model.add(Conv2D(16, (3,3), 1, activation = 'relu', input_shape=(256, 256, 3)))
+model.add(MaxPooling2D())
+model.add(Conv2D(32, (3,3), 1, activation = 'relu'))
+model.add(MaxPooling2D())
+model.add(Conv2D(16, (3,3), 1, activation = 'relu'))
+model.add(MaxPooling2D())
+model.add(Flatten())
+model.add(Dense(256, activation = 'relu'))
+model.add(Dense(1, activation = 'sigmoid'))
+
+model.compile('adam', loss = tf.losses.BinaryCrossentropy(), metrics = ['accuracy'])
+
+model.summary()
+
+"""
+************************************************************************************
+Model Training
+************************************************************************************
+"""
+
+logdir='logs'  
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=logdir)  
+hist = model.fit(train, epochs=10, validation_data=val, callbacks=[tensorboard_callback]) 
+
+plt.plot(hist.history['loss'], color='teal', label='loss') 
+plt.plot(hist.history['val_loss'], color='orange', label='val_loss')  
+plt.legend(loc="upper left") 
+plt.savefig('Loss')
+
+plt.plot(hist.history['accuracy'], color='teal', label='loss') 
+plt.plot(hist.history['val_loss'], color='orange', label='val_loss')  
+plt.legend(loc="upper left") 
+plt.savefig('Accuracy')
+"""
+************************************************************************************
+Evaluate
+************************************************************************************
+"""
+
+from tensorflow.keras.metrics import BinaryAccuracy
+accuracy = BinaryAccuracy()
+
+for batch in test.as_numpy_iterator():
+    X, y = batch
+    yPred = model.predict(X)
+    accuracy.update_state(y, yPred)
+
+print(accuracy.result().numpy())
+
+
