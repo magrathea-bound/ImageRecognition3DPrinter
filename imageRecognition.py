@@ -113,12 +113,12 @@ hist = model.fit(train, epochs=10, validation_data=val, callbacks=[tensorboard_c
 plt.plot(hist.history['loss'], color='teal', label='loss') 
 plt.plot(hist.history['val_loss'], color='orange', label='val_loss')  
 plt.legend(loc="upper left") 
-plt.savefig('Loss')
+plt.savefig('misc/Loss')
 
 plt.plot(hist.history['accuracy'], color='teal', label='loss') 
 plt.plot(hist.history['val_loss'], color='orange', label='val_loss')  
 plt.legend(loc="upper left") 
-plt.savefig('Accuracy')
+plt.savefig('misc/Accuracy')
 """
 ************************************************************************************
 Evaluate

@@ -1,7 +1,18 @@
 # Image Classification of 3d printer models.
 ## Overview
 A project in progress.  I am learning more about Tensorflow through an image classification NN.   
-The purpose of this project is to classify the quality of prints from a 3D printer as good or bad quality.  The applications of this project could help manufacturers quickly identify and stop faulty machinery sooner.  By stopping bad production early, a company can reduce waste and maximize profit.  
+The purpose of this project is to classify the quality of prints from a 3D printer as good or bad quality (See below for images).  The applications of this project could help manufacturers quickly identify and stop faulty machinery sooner.  By stopping bad production early, a company can reduce waste and maximize profit.  
+
+### Good Print
+![Good Print](./misc/good.jpg)
+
+### Bad Print
+![Bad Print](./misc/bad.jpg)
+
+## Results
+Most of the loss was reduced after 2 epochs, see below.  The final accuracy of the neural network on the test set was 1.0 indicating strong performance in predicting 3D print quality.  
+
+![Loss](./misc/Loss.png)
 
 ## Current Status
 1. Data clean to look for corrupt images or images not in JPG format.  
