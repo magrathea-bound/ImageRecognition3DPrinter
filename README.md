@@ -10,7 +10,7 @@ The purpose of this project is to classify the quality of prints from a 3D print
 ![Bad Print](./misc/bad.jpg)
 
 ## Results
-Most of the loss was reduced after 2 epochs, see below.  The final accuracy of the neural network on the test set was 1.0 indicating strong performance in predicting 3D print quality.  
+Most of the loss was reduced after 2 epochs, see below.  The final accuracy of the neural network on the test set was 0.993 indicating strong performance in predicting 3D print quality.  
 
 ![Loss](./misc/Loss.png)
 
